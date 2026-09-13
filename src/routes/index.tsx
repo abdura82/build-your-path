@@ -1371,11 +1371,6 @@ function Index() {
                 />
               </div>
 
-              <div className="mb-6 flex justify-end">
-                <Button size="sm" variant="outline" onClick={() => setRaporAcik(true)}>
-                  <CalendarDays className="h-4 w-4" /> {tr("haftaninRaporu")}
-                </Button>
-              </div>
 
               <div className="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-md border border-border/60 bg-secondary/30 px-3 py-2">
                 <div className="flex items-center gap-2 text-sm">
@@ -1589,7 +1584,10 @@ function Index() {
 
         <RaporDiyalog
           acik={raporAcik}
-          onClose={() => setRaporAcik(false)}
+          onClose={() => {
+            setRaporAcik(false);
+            ayarlaraDon();
+          }}
           talebeler={hafizTalebeler}
           haftaBas={seciliHafta}
           haftaEtiketi={haftaEtiket(seciliHafta)}
@@ -1676,6 +1674,18 @@ function Index() {
               >
                 <Lock className="h-4 w-4 text-muted-foreground" />
                 <span className="text-sm font-medium">{tr("parolaDegistir")}</span>
+              </button>
+              <button
+                type="button"
+                className="flex w-full items-center gap-3 rounded-md border border-border/60 px-3 py-2 text-left transition-colors hover:bg-accent"
+                onClick={() => {
+                  ayarlardanAcildi.current = true;
+                  setAyarlarAcik(false);
+                  setRaporAcik(true);
+                }}
+              >
+                <CalendarDays className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm font-medium">{tr("haftaninRaporu")}</span>
               </button>
               <button
                 type="button"
