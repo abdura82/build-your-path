@@ -509,6 +509,18 @@ function Index() {
     } catch {}
   }, []);
 
+  // Gün değişince seçili gün ve hafta otomatik olarak bugüne taşınır.
+  // Kullanıcı geçmiş/gelecek bir haftaya gitmişse orada kalır.
+  const bugun = useBugun();
+  const oncekiBugun = useRef(bugun);
+  useEffect(() => {
+    if (oncekiBugun.current === bugun) return;
+    const eskiHaftaBaslangic = haftaBaslangici(new Date(oncekiBugun.current));
+    oncekiBugun.current = bugun;
+    setSeciliGun(bugununGunu());
+    setSeciliHafta((h) => (h === eskiHaftaBaslangic ? haftaBaslangici() : h));
+  }, [bugun]);
+
   useEffect(() => {
     try {
       localStorage.setItem(HOCA_AD_KEY, hoca);
