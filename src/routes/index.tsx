@@ -1803,6 +1803,7 @@ function Index() {
                     type="button"
                     className="flex w-full items-center gap-3 rounded-md border border-border/60 px-3 py-2 text-left transition-colors hover:bg-accent"
                     onClick={() => {
+                      ayarlardanAcildi.current = true;
                       setAyarlarAcik(false);
                       ekle(false);
                     }}
@@ -1814,6 +1815,7 @@ function Index() {
                     type="button"
                     className="flex w-full items-center gap-3 rounded-md border border-border/60 px-3 py-2 text-left transition-colors hover:bg-accent"
                     onClick={() => {
+                      ayarlardanAcildi.current = true;
                       setAyarlarAcik(false);
                       ekle(true);
                     }}
@@ -1825,6 +1827,7 @@ function Index() {
                     type="button"
                     className="flex w-full items-center gap-3 rounded-md border border-border/60 px-3 py-2 text-left transition-colors hover:bg-accent"
                     onClick={() => {
+                      ayarlardanAcildi.current = true;
                       setAyarlarAcik(false);
                       setGrupTaslak(gruplar.map((g) => ({ ...g })));
                       setGruplarAcik(true);
@@ -1903,7 +1906,13 @@ function Index() {
               )}
             </div>
             <DialogFooter>
-              <Button variant="ghost" onClick={() => setParolaDegistirAcik(false)}>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setParolaDegistirAcik(false);
+                  ayarlaraDon();
+                }}
+              >
                 {tr("iptal")}
               </Button>
               <Button onClick={parolaDegistir}>{tr("degistir")}</Button>
@@ -2166,7 +2175,13 @@ function Index() {
             </div>
 
             <DialogFooter>
-              <Button variant="ghost" onClick={() => setYeniTalebeAcik(null)}>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setYeniTalebeAcik(null);
+                  ayarlaraDon();
+                }}
+              >
                 İptal
               </Button>
               <Button onClick={yeniTalebeKaydet} disabled={!yeniTalebe.isim.trim()}>
