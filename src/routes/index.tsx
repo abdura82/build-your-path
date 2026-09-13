@@ -104,6 +104,7 @@ import {
 } from "@/lib/talebeler";
 import { dosyaFotoDataUrl, bashHarfler } from "@/lib/foto";
 import { aidatTutariniOku, hocaMailAyarDinle, talebeleriTazele } from "@/lib/talebeler";
+import { useBugun } from "@/lib/bugun";
 import { useGruplar } from "@/hooks/use-gruplar";
 import { listeYazdir } from "@/lib/pdf";
 import { excelIndir, excelOku } from "@/lib/excel";
@@ -507,6 +508,18 @@ function Index() {
       if (sessionStorage.getItem(HOCA_OTURUM_KEY) === "1") setHocaModu(true);
     } catch {}
   }, []);
+
+  // Gün değişince seçili gün ve hafta otomatik olarak bugüne taşınır.
+  // Kullanıcı geçmiş/gelecek bir haftaya gitmişse orada kalır.
+  const bugun = useBugun();
+  const oncekiBugun = useRef(bugun);
+  useEffect(() => {
+    if (oncekiBugun.current === bugun) return;
+    const eskiHaftaBaslangic = haftaBaslangici(new Date(oncekiBugun.current));
+    oncekiBugun.current = bugun;
+    setSeciliGun(bugununGunu());
+    setSeciliHafta((h) => (h === eskiHaftaBaslangic ? haftaBaslangici() : h));
+  }, [bugun]);
 
   useEffect(() => {
     try {
