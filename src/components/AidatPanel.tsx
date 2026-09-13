@@ -66,6 +66,24 @@ export default function AidatPanel({
   const simdi = new Date();
   const [yil, setYil] = useState(simdi.getFullYear());
   const [ay, setAy] = useState(simdi.getMonth());
+
+  // Ay (veya yıl) değişince, kullanıcı o an içinde bulunulan ayı
+  // görüntülüyorsa otomatik olarak yeni aya geç; başka bir ayı
+  // inceliyorsa orada kal.
+  const bugun = useBugun();
+  const oncekiAyAnahtar = useRef(`${simdi.getFullYear()}-${simdi.getMonth()}`);
+  useEffect(() => {
+    const d = new Date();
+    const yeniAnahtar = `${d.getFullYear()}-${d.getMonth()}`;
+    const eskiAnahtar = oncekiAyAnahtar.current;
+    if (eskiAnahtar === yeniAnahtar) return;
+    oncekiAyAnahtar.current = yeniAnahtar;
+    if (`${yil}-${ay}` === eskiAnahtar) {
+      setYil(d.getFullYear());
+      setAy(d.getMonth());
+    }
+  }, [bugun, yil, ay]);
+
   const [tutar, setTutar] = useState(0);
   const [tutarDuzenle, setTutarDuzenle] = useState(false);
   const [tutarTaslak, setTutarTaslak] = useState("0");
